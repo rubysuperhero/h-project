@@ -1,0 +1,5 @@
+# hiro project installation config
+# used by h-install
+
+bin:
+  bin/h-project
