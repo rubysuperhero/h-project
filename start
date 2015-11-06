@@ -1,0 +1,16 @@
+
+# git recent-branches
+
+# git status
+git add --all binstubs/project.erb  # M  
+git add --all start    # AM 
+
+# project files
+.gitignore
+README.md
+bin/h-project
+binstubs/project.erb
+install.yml
+start
+templates/project_config.yml
+

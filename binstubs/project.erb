@@ -33,6 +33,19 @@ module MainCommand
     subcommand = args.shift
 
     case subcommand
+    when 'restart'
+      update_start_file
+    when 'start'
+      if system('tmux ls | egrep -i <%= project %>')
+        system(* %w{tmux a -t <%= project %>})
+      else
+        system(* ("tmux new -s <%= project %> -c <%= path %> " + @args.join(' ')).split(' '))
+      end
+
+      update_start_file
+
+      system(format('tmux neww -t %s', PROJECT))
+      system(format('tmux send -t %s "vim start%s"', PROJECT, "\n"))
     when 'refresh'
       update_start_file
     when 'dir', 'cdto', 'cd', 'path', 'home'
@@ -41,7 +54,7 @@ module MainCommand
     when 'run'
       system(* args)
     when ?t, 'tmux'
-    if system('tmux ls | egrep -i <%= project %>')
+      if system('tmux ls | egrep -i <%= project %>')
         system(* %w{tmux a -t <%= project %>})
       else
         system(* ("tmux new -s <%= project %> -c <%= path %> " + @args.join(' ')).split(' '))
@@ -63,7 +76,6 @@ module MainCommand
     File.open('start', 'w+') do |file|
       file.puts
       file.puts '# git recent-branches'
-      '
       files = `git status -s`.lines.map(&:chomp)
 
       file.puts
