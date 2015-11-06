@@ -19,6 +19,7 @@ module MainCommand
   attr_accessor :piped_data
   attr_accessor :special_options
   attr_accessor :pwd, :original_pwd
+
   def run(args=ARGV.clone, input=$stdin, output=$stdout)
     @args, @stdinput, @stdoutput = args, input, output
 
@@ -31,6 +32,8 @@ module MainCommand
     subcommand = args.shift
 
     case subcommand
+    when 'refresh'
+      update_start_file
     when 'dir', 'cdto', 'cd', 'path', 'home'
       Dir.chdir COPLEY_HOME
       printf '%s', COPLEY_HOME
@@ -53,6 +56,27 @@ module MainCommand
     end
 
     puts
+  end
+
+  def update_start_file
+    File.open('start', 'w+') do |file|
+      file.puts
+      file.puts '# git status'
+      files = `git status -s`.lines.map(&:chomp)
+      max_length = files.map{|f|
+        f.sub(/^..\s(?:.* -> )?/, '')
+      }.max
+      start_files = files.map do |f|
+        replaced = f[/^..\s(?:.* -> )?/]
+        format("%-#{max_length}s  # %-s", f.sub(/^(..) (.* -> )?/, 'git add --all '), replaced)
+      end
+      file.puts start_files
+      file.puts
+      file.puts '# project files'
+      file_list = `git ls-files`
+      file.puts file_list
+      file.puts
+    end
   end
 
   def build_github_issues_command
