@@ -13,7 +13,8 @@ require 'ostruct'
 module MainCommand
   extend self
 
-  COPLEY_HOME='<%= path %>'
+  PROJECT_HOME='<%= path %>'
+  PROJECT='<%= project %>'
 
   attr_accessor :args, :stdinput, :stdoutput
   attr_accessor :piped_data
@@ -24,7 +25,7 @@ module MainCommand
     @args, @stdinput, @stdoutput = args, input, output
 
     @original_pwd = Dir.pwd
-    Dir.chdir(COPLEY_HOME)
+    Dir.chdir(PROJECT_HOME)
     @pwd = Dir.pwd
 
     parse_options
@@ -35,15 +36,15 @@ module MainCommand
     when 'refresh'
       update_start_file
     when 'dir', 'cdto', 'cd', 'path', 'home'
-      Dir.chdir COPLEY_HOME
-      printf '%s', COPLEY_HOME
+      Dir.chdir PROJECT_HOME
+      printf '%s', PROJECT_HOME
     when 'run'
       system(* args)
     when ?t, 'tmux'
-      if system('tmux ls | egrep -i copley')
-        system(* %w{tmux a -t copley})
+    if system('tmux ls | egrep -i <%= project %>')
+        system(* %w{tmux a -t <%= project %>})
       else
-        system(* ("tmux new -s copley -c #{ENV['HOME']}/repos/copley/www " + @args.join(' ')).split(' '))
+        system(* ("tmux new -s <%= project %> -c <%= path %> " + @args.join(' ')).split(' '))
       end
     when ?i, 'issues'
       system(* %w{ghi list})
@@ -59,14 +60,25 @@ module MainCommand
   end
 
   def update_start_file
+    kzc
+    M
     File.open('start', 'w+') do |file|
+      file.puts
+      file.puts '# git recent-branches'
+      '
+      files = `git status -s`.lines.map(&:chomp)
+
       file.puts
       file.puts '# git status'
       files = `git status -s`.lines.map(&:chomp)
       max_length = files.map{|f|
-        f.sub(/^..\s(?:.* -> )?/, '')
+        f.sub(/^..(?:\s.* ->)?/, '').tap{|shf|
+          puts shf: shf
+        }.length
       }.max
       start_files = files.map do |f|
+        replaced = f[/^..\s(?:.* -> )?/]
+        format("%-#{max_length}s  # %-s", f.sub(/^(..) (.* -> )?/, 'git add --all '), replaced)
         replaced = f[/^..\s(?:.* -> )?/]
         format("%-#{max_length}s  # %-s", f.sub(/^(..) (.* -> )?/, 'git add --all '), replaced)
       end

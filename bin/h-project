@@ -210,9 +210,12 @@ class GenerateBinstubs < SubCommand
 
   def run
     Projects.all.each do |project|
+      cmd = File.join(projects_dir, format('p%s', project))
       path = Projects.data[project]['path']
       binstub = ERB.new(template).result(binding)
-      IO.write(File.join(projects_dir, project), binstub)
+      IO.write(cmd, binstub)
+      puts `chmod +x #{cmd}`
+      puts `ls -l #{cmd}`
     end
   end
 end
