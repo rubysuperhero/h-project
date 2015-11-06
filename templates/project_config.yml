@@ -1,0 +1,6 @@
+project: '{{project_name}}'
+start_file_template: 'hero/start.erb'
+custom_subcommands:
+  tmux: 'tmux new -s {{project_name}} -c {{project_directory}}'
+  migrate: 'rake db:migrate'
+  deploy: 'git push production master'
