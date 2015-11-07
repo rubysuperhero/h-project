@@ -5,6 +5,6 @@ bin:
   bin/h-project
 binstubs:
   binstubs/project
+templates:
+  templates/hero.yml.erb
 
-# templates:
-#   templates/project_something.ext

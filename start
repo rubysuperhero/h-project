@@ -6,10 +6,28 @@
 # git status
 ------------
 
+  ##  M
+  ------
+  bin/h-project
+  hero.yml
+  install.yml
+  start
+
+  ##  D
+  ------
+  templates/project_config.yml
+
+  ## ??
+  ------
+  templates/hero.yml.erb
+
 
 # project files
 ---------------
 .gitignore
+README.md
+bin/h-project
+binstubs/project.erb
 hero.yml
 install.yml
 start
@@ -18,7 +36,4 @@ templates/project_config.yml
 
 # deferred files
 ----------------
-bin/h-project
-binstubs/project.erb
-README.md
 
