@@ -1,7 +1,7 @@
 project: h-project
-bins:
+bin:
   - bin/h-project
-binstubs:
+binstub:
   - binstubs/project.erb
-templates:
+template:
   - templates/hero.yml.erb
