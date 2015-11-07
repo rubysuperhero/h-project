@@ -1,16 +1,38 @@
 
 # git recent-branches
+---------------------
+
 
 # git status
-git add --all binstubs/project.erb  # M  
-git add --all start    # AM 
+------------
+
+  ##  M
+  ------
+  binstubs/project.erb
+  templates/project_config.yml
+
+  ## MM
+  ------
+  start
+
+  ## ??
+  ------
+  hero.yml
+
+git add --all binstubs/project.erb templates/project_config.yml start hero.yml
+git commit -m 'improved start file; project_config.yml'
 
 # project files
+---------------
 .gitignore
-README.md
-bin/h-project
-binstubs/project.erb
 install.yml
 start
 templates/project_config.yml
+
+
+# deferred files
+----------------
+bin/h-project
+binstubs/project.erb
+README.md
 
