@@ -8,18 +8,8 @@
 
   ##  M
   ------
-  bin/h-project
-  hero.yml
-  install.yml
+  binstubs/project.erb
   start
-
-  ##  D
-  ------
-  templates/project_config.yml
-
-  ## ??
-  ------
-  templates/hero.yml.erb
 
 
 # project files
@@ -31,7 +21,7 @@ binstubs/project.erb
 hero.yml
 install.yml
 start
-templates/project_config.yml
+templates/hero.yml.erb
 
 
 # deferred files
