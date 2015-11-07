@@ -6,25 +6,11 @@
 # git status
 ------------
 
-  ##  M
-  ------
-  binstubs/project.erb
-  templates/project_config.yml
-
-  ## MM
-  ------
-  start
-
-  ## ??
-  ------
-  hero.yml
-
-git add --all binstubs/project.erb templates/project_config.yml start hero.yml
-git commit -m 'improved start file; project_config.yml'
 
 # project files
 ---------------
 .gitignore
+hero.yml
 install.yml
 start
 templates/project_config.yml
